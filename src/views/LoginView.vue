@@ -1,38 +1,30 @@
 <template>
-  <div>
-    <div>Login View</div>
-    <div style="margin-top: 20px">
-      <button
-        v-if="cpLoggedIn"
-        @click="onClickLogout"
-      >
-        Logout
-      </button>
-      <button
-        v-else
-        @click="onClickLogin"
-      >
-        Login
-      </button>
-    </div>
-  </div>
+  <v-container>
+    <v-row class="mt-16 justify-center">
+      <v-col cols="10">
+        <v-card color="card">
+          <v-container class="text-center">
+            <v-row>
+              <v-col>
+                <div class="mb-12">Login View</div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <home-button />
+              </v-col>
+              <v-col>
+                <log-in-out />
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-<script>
-export default {
-  name: 'LoginView',
-  computed: {
-    cpLoggedIn() {
-      return this.$store.state.loggedIn;
-    },
-  },
-  methods: {
-    onClickLogin() {
-      this.$store.dispatch('login');
-    },
-    onClickLogout() {
-      this.$store.dispatch('logout');
-    },
-  },
-};
+<script setup>
+import LogInOut from '@/components/LogInOut.vue';
+import HomeButton from '@/components/HomeButton.vue';
 </script>

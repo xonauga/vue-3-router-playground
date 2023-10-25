@@ -1,23 +1,35 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import InvoiceSearchView from '../views/invoice/InvoiceSearchView.vue';
-import InvoiceOverviewView from '../views/invoice/InvoiceOverviewView.vue';
-import InvoiceBomView from '../views/invoice/InvoiceBomView.vue';
+import AppbarView from '../views/AppbarView.vue';
+import InvoiceAppbarView from '../views/invoice/AppbarView.vue';
+import InvoiceSearchView from '../views/invoice/SearchView.vue';
+import InvoiceOverviewView from '../views/invoice/OverviewView.vue';
+import InvoiceBomView from '../views/invoice/BomView.vue';
+import AuctionAppbarView from '../views/auction/AppbarView.vue';
+import AuctionSearchView from '../views/auction/SearchView.vue';
+import AuctionOverviewView from '../views/auction/OverviewView.vue';
+import AuctionItemView from '../views/auction/ItemView.vue';
 import store from '@/store';
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView,
+    components: {
+      default: HomeView,
+      appbar: AppbarView,
+    },
   },
   {
     path: '/invoice',
     name: 'invoice',
-    component: () =>
-      import(
-        /* webpackChunkName: "invoice" */ '../views/invoice/InvoiceView.vue'
-      ),
+    components: {
+      appbar: InvoiceAppbarView,
+      default: () =>
+        import(
+          /* webpackChunkName: "invoice" */ '../views/invoice/InvoiceView.vue'
+        ),
+    },
     children: [
       {
         path: '',
@@ -39,10 +51,42 @@ const routes = [
     ],
   },
   {
+    path: '/auction',
+    name: 'auction',
+    components: {
+      appbar: AuctionAppbarView,
+      default: () =>
+        import(
+          /* webpackChunkName: "invoice" */ '../views/auction/AuctionView.vue'
+        ),
+    },
+    children: [
+      {
+        path: '',
+        name: 'auction-search',
+        component: AuctionSearchView,
+      },
+      {
+        path: ':id',
+        name: 'auction-overview',
+        component: AuctionOverviewView,
+        props: true,
+      },
+      {
+        path: ':id/:item',
+        name: 'auction-item',
+        component: AuctionItemView,
+        props: true,
+      },
+    ],
+  },
+  {
     path: '/login',
     name: 'login',
-    component: () =>
-      import(/* webpackChunkName: "login" */ '../views/LoginView.vue'),
+    components: {
+      default: () =>
+        import(/* webpackChunkName: "login" */ '../views/LoginView.vue'),
+    },
   },
 ];
 
@@ -65,8 +109,8 @@ router.beforeEach((to, from) => {
   }
 
   const loggedIn = store.state.loggedIn;
-  console.log('loggedIn', loggedIn);
   if (!loggedIn) {
+    console.log(' >> login ');
     return { name: 'login' };
   } else {
     return true;

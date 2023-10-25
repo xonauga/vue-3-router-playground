@@ -12,6 +12,7 @@ export default createStore({
   },
   actions: {
     login: (context) => {
+      console.log('store-login');
       context.commit('setLoggedIn', true);
     },
     logout: (context) => {

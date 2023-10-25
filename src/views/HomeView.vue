@@ -1,11 +1,11 @@
 <template>
-  <div>Home View</div>
-  <div>Logged in: {{ $store.state.loggedIn }}</div>
+  <v-container>
+    <v-row>
+      <v-col>
+        <div class="text-h5 text-text">Home View:</div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-<script>
-export default {
-  name: 'HomeView',
-  components: {},
-};
-</script>
+<script setup></script>

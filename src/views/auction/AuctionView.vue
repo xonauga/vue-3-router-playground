@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <div class="text-h5 text-text">Invoice View:</div>
+        <div class="text-h5 text-text">Auction View:</div>
       </v-col>
     </v-row>
     <v-row>
