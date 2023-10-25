@@ -2,29 +2,37 @@
   <v-app>
     <router-view name="appbar"></router-view>
     <v-main>
-      <nav v-if="cpLoginRoute">
-        <v-container>
-          <v-row>
-            <v-col class="d-flex justify-center">
-              <div>
-                <router-link to="/">Home</router-link> |
-                <router-link to="/invoice">Invoice</router-link> |
-                <router-link to="/auction">Auction</router-link>
-              </div>
-            </v-col>
-          </v-row>
-        </v-container>
-      </nav>
+      <v-container v-if="cpLoginRoute">
+        <v-row>
+          <v-col class="d-flex justify-center">
+            <div>
+              <router-link-ext
+                v-for="(item, index) in mainRoutes"
+                :key="index"
+                :item="item"
+                :no-divider="index === mainRoutes.length - 1"
+              />
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
       <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import RouterLinkExt from '@/components/RouterLinkExt.vue';
+import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
+
+const mainRoutes = ref([
+  { title: 'Home', to: '/' },
+  { title: 'Invoice', to: '/invoice' },
+  { title: 'Auction', to: '/auction' },
+]);
 
 const cpLoginRoute = computed(() => {
   return route.name !== 'login';
@@ -36,15 +44,5 @@ const cpLoginRoute = computed(() => {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-}
-
-nav a {
-  color: rgb(0, 60, 120);
-  text-decoration: none;
-}
-
-nav a.router-link-exact-active {
-  color: rgb(0, 60, 120);
-  font-weight: bold;
 }
 </style>
